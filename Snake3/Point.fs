@@ -22,6 +22,11 @@
                 match (p1,p2) with
                 | p1, p2 when p1.X = p2.X && p1.Y=p2.Y -> true
                 | _ -> false
+
+          static member (!=) (p1: Point, p2: Point) = 
+                match (p1,p2) with
+                | p1, p2 when not (p1.X = p2.X) || not (p1.Y=p2.Y) -> true
+                | _ -> false
        end
 
        

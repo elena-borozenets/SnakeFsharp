@@ -4,12 +4,12 @@
 
     type Walls (xp:int, yp:int, chp:char) as wall =
             let Ch:char = chp
-            //let mutable wal: Point list
+            let mutable wal: Point list = []
             do
-                let (m: Point list) = wall.DrawHorizontal(xp, 0)
-                let (m: Point list) = wall.DrawHorizontal(xp, yp)
-                let (m: Point list) = wall.DrawVertical(0, yp)
-                let (m: Point list) = wall.DrawVertical(xp, yp)
+                wal <- wal @ wall.DrawHorizontal(xp, 0)
+                wal <- wal @  wall.DrawHorizontal(xp, yp)
+                wal <- wal @  wall.DrawVertical(0, yp)
+                wal <- wal @  wall.DrawVertical(xp, yp)
                 printfn ""
 
             member this.DrawHorizontal(x : int, y : int) = 
@@ -39,3 +39,6 @@
                 //let result = (draw x y Ch [] 0 )
                 //let my = fun f -> Point.Draw f
                 //List.map my result
+
+                member this.IsHit (p: Point) = 
+                    List.contains p wal

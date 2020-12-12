@@ -13,13 +13,16 @@ open System.Linq.Expressions
 let x = 80
 let y = 26
 
-let getRandomCoordinates = 
-    let r = new Random()
-    (r.Next(2, x - 2), r.Next(2, y - 2))
 
+let r = new Random()
 let walls = new Walls(x, y, '#')
 let foodFactory = new FoodFactory('o')
 let mutable snake = new Snake(x/2, y/2, 3)
+
+let getRandomCoordinates =    
+                let newX = r.Next(2, x - 2)
+                let newY = r.Next(2, y - 2)
+                (newX, newY)
 
  
 let Loop (obj: Object) = 
@@ -37,10 +40,12 @@ let Loop (obj: Object) =
        | _ ->
            match foodFactory.Food with 
            | f when snake.Eat f -> 
-                let k = getRandomCoordinates
-                foodFactory.CreateFood (fst k) (snd k)
+                let newX = r.Next(2, x - 2)
+                let newY = r.Next(2, y - 2)
+                foodFactory.CreateFood newX newY
                 //Thread.Sleep(1000)
            | _ -> 
+                    Draw foodFactory.Food
                     snake.Move    
                     //Thread.Sleep(1000)
 
@@ -56,6 +61,7 @@ let main argv =
     let time = new Timer (Loop, null, 0, 200)
     let k = getRandomCoordinates
     foodFactory.CreateFood (fst k) (snd k)
+
     
 
     while true do

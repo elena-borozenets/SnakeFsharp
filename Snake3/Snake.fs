@@ -31,7 +31,7 @@
 
     type Snake(x:int, y:int, length: int) as sn = 
       
-            let Length = length
+            let mutable Length = length
             let step = 1
             let mutable tail: Point = new Point()
             let mutable head: Point = new Point()
@@ -41,7 +41,7 @@
 
             do
                 direction <-Right
-                snake <- sn.DrawSnake x y length
+                snake <- sn.DrawSnake x y Length
                 printf ""
 
 
@@ -60,7 +60,8 @@
 
             member this.GetHead = List.last snake
 
-            member this.GetNextPoint = getNextPoint (this.GetHead) direction step 
+            member this.GetNextPoint = 
+                        getNextPoint (this.GetHead) direction step 
 
         
 
@@ -95,6 +96,7 @@
                 | h when h = p -> 
                     snake <- (snake @ [head])
                     Draw head
+                    Length <- Length+1
                     true
                 | _ -> false
 

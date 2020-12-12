@@ -29,15 +29,20 @@ let Loop (obj: Object) =
                let p = snake.GetHead;
                Draw p;
                snake <- new Snake(x / 2, y / 2, 3);
+              // Thread.Sleep(1000)
        | p when   snake.IsHit p ->  
                     snake.CleanSnakePoints
                     snake <- new Snake(x / 2, y / 2, 3);
+                   // Thread.Sleep(1000)
        | _ ->
            match foodFactory.Food with 
            | f when snake.Eat f -> 
                 let k = getRandomCoordinates
                 foodFactory.CreateFood (fst k) (snd k)
-           | _ -> snake.Move    
+                //Thread.Sleep(1000)
+           | _ -> 
+                    snake.Move    
+                    //Thread.Sleep(1000)
 
     
 
@@ -48,7 +53,7 @@ let main argv =
     Console.SetBufferSize(x + 1, y + 1)
     Console.CursorVisible <- false
     
-    let Timer time = new Timer (Loop, null, 0, 200)
+    let time = new Timer (Loop, null, 0, 200)
     let k = getRandomCoordinates
     foodFactory.CreateFood (fst k) (snd k)
     

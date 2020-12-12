@@ -48,9 +48,9 @@
 
             member this.DrawSnake x y length=
                 let rec draw x y ch arr length action = 
-                    match (x,y) with 
-                    | (0, y) -> arr
-                    | (x, y) -> 
+                    match (x,y,length) with 
+                    | (x, y, 0) -> arr
+                    | (x, y, length) -> 
                         let p = Point(x, y, ch)
                         action p
                         draw (x-1) y ch (p::arr) (length-1) action
@@ -60,13 +60,13 @@
 
             member this.GetHead = List.last snake
 
-            member this.GetNextPoint = getNextPoint this.GetHead direction step 
+            member this.GetNextPoint = getNextPoint (this.GetHead) direction step 
 
         
 
             member this.Move = 
                 let head = this.GetNextPoint
-                snake <- (snake @ [head]) //change order
+                snake <- snake @ [head] //change order
                 match snake with
                 |first::other ->   
                     tail <- first
@@ -83,7 +83,9 @@
 
             member this.IsHit (p: Point) = 
                 match snake with
-                | head::tail -> List.contains p tail
+                | head::tail -> 
+                            let list = tail |> List.rev |> List.tail
+                            List.contains p list
                 | _ -> false
 
 
